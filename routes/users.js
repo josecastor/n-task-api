@@ -1,10 +1,10 @@
 module.exports = app => {
     const Users = app.db.models.Users;
 
-    app.route('/user')
+    app.route("/user")
     .all(app.auth.authenticate())
-    app.get("/users/:id", (req, res) => {
-        Users.findById(req.params.id, {
+    .get((req, res) => {
+        Users.findById(req.user.id, {
             attributes: ["id", "name", "email"]
         })
         .then(result => res.json(result))
@@ -12,13 +12,12 @@ module.exports = app => {
             res.status(412).json({msg: err.message})
         })
     })
-
-    app.delete("/users/:id", (req,res) => {
+    .delete((req, res) => {
         Users.destroy({where: {id: req.params.id}})
-            .then(result => res.sendStatus(204))
-            .catch(err => {
-                res.status(412).json({msg: err.message})
-            })
+        .then(result => res.sendStatus(204))
+        .catch(err => {
+            res.status(412).json({msg: err.message})
+        })
     })
 
     app.post("/users", (req, res) => {

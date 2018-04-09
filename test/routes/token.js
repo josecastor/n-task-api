@@ -23,7 +23,6 @@ describe("Routes: Token", () => {
                 })
                 .expect(200)
                 .end((err, res) => {
-                    console.log(res.body)
                     expect(res.body).to.include.keys("token");
                     done(err);
                 });
