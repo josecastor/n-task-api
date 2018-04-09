@@ -2,10 +2,10 @@ module.exports = app => {
     const Tasks = app.db.models.Tasks;
     app.route("/tasks")
         // Middleware de pré-execução das rotas
-        // .all(app.auth.authenticate())
+        .all(app.auth.authenticate())
         .get((req, res) => {
             // "/tasks": Lista tarefas
-            console.log(req)
+            // console.log(req)
             Tasks.findAll({ where: { user_id: req.user.id }})
                 .then(result => res.json(result))
                 .catch(err => {
